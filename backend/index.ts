@@ -1,6 +1,6 @@
-import { config } from 'dotenv';
 import { serve } from '@hono/node-server';
-import { app } from './src/app.js';
+import { config } from 'dotenv';
+import { app } from './src/app';
 
 const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env';
 
