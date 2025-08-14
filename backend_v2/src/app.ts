@@ -1,12 +1,10 @@
-import type { Context } from "hono";
 import createApp from "./lib/create-app.js";
 import { initializeDatabase } from "./db/database.js";
+import { healthCheck } from "./routes/healthcheck.js";
 
 const app = createApp();
 initializeDatabase();
 
-app.get('/', (c: Context) => {
-  return c.text('hello');
-})
+app.get('/healthcheck', healthCheck);
 
 export default app;

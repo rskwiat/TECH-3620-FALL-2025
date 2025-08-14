@@ -21,3 +21,7 @@ export default function createApp() {
 
   return app;
 }
+
+export function createTestApp(router: any) {
+  return createApp().route('/', router);
+};
