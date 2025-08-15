@@ -3,7 +3,7 @@
 import { testClient } from 'hono/testing';
 import { describe, it, expect } from 'vitest';
 
-import app from '../app.js';
+import app from '../../app.js';
 const client = testClient(app);
 
 describe('Healthcheck Route', () => {

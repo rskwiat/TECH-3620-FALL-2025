@@ -1,25 +1,26 @@
 import 'dotenv/config';
+import type { Context } from 'hono';
 import { sign } from 'hono/jwt';
 import bcrypt from 'bcrypt';
 
-import { db } from '../../db/database.js';
+import { db } from '../db/database.js';
 import * as HttpStatusCodes from '../constants/status-codes.js'
+import { userQueries } from '../db/helpers.js';
 
-const saltRounds = 10; // Try an integer 10-12
+const saltRounds = 10;
 const salt = await bcrypt.genSalt(saltRounds);
 
-export async function registerUser(c) {
+export async function registerUser(c: Context) {
   try {
     const { email, password } = await c.req.json();
     const saltedPassword = await bcrypt.hash(password, salt);
-
-    const result = db.prepare("INSERT INTO users (email, password) VALUES (?,?)").run(email, saltedPassword);
+    const result = userQueries.create(email, saltedPassword)
 
     return c.json({
-      message: 'user registered',
+      message: 'User registered',
       id: result.lastInsertRowid
     }, 200);
-  } catch (error) {
+  } catch (error: any) {
 
     if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
       return c.json({
@@ -33,19 +34,18 @@ export async function registerUser(c) {
   }
 }
 
-export async function loginUser(c) {
+export async function loginUser(c: Context) {
   try {
-    const { email, password } = await c.req.valid('json');
-    
-    // const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
-    const user = db.prepare("SELECT * FROM users WHERE email = ?").get(email);
+    const { email, password } = await c.req.json();
 
+    const user = userQueries.findByEmail(email);
+    
     if (!user) {
       return c.json({
         message: 'Invalid email or password'
       }, HttpStatusCodes.UNAUTHORIZED);
     }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user?.password);
 
     if (!isPasswordValid) {
       return c.json({
@@ -55,19 +55,14 @@ export async function loginUser(c) {
 
     const payload = {
       email,
-      exp: '30d'
+      exp: Math.floor(Date.now() / 1000) + 24 * 30
     };
-    const secret = process.env.JWT;
+    const secret = process.env.JWT_SECRET || '';
     const token = await sign(payload, secret);
 
     return c.json({
       message: 'Login successful',
       token: token,
-      user: {
-        id: user.id,
-        email: user.email,
-        created_at: user.created_at
-      }
     }, HttpStatusCodes.OK);
 
   } catch(error) {
@@ -77,15 +72,21 @@ export async function loginUser(c) {
   }
 }
 
-export async function requestPasswordReset(e) {
-
+export async function requestPasswordReset(c: Context) {
+    return c.json({
+      message: 'Request Password Reset Route'
+    }, HttpStatusCodes.OK);
 };
 
-export async function resetPassword(e) {
-
+export async function resetPassword(c: Context) {
+    return c.json({
+      message: 'Reset Password Route'
+    }, HttpStatusCodes.OK);
 };
 
-export async function verifyEmail(e) {
-  
+export async function verifyEmail(c: Context) {
+     return c.json({
+      message: 'Verify Email'
+    }, HttpStatusCodes.OK); 
 };
 

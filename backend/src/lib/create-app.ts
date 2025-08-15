@@ -1,12 +1,11 @@
 import { Hono } from 'hono';
-
-import * as HttpStatusCodes from '../constants/status-codes';
-import * as HttpStatusMessages from '../constants/status-messages';
-
+import { Logger } from "../middlewares/logger.js";
+import * as HttpStatusMessages from '../constants/status-messages.js';
+import * as HttpStatusCodes from '../constants/status-codes.js';
 
 export default function createApp() {
   const app = new Hono();
-  // app.use(Logger());
+  app.use(Logger());
 
   app.notFound((c) => {
     return c.json({
@@ -22,3 +21,7 @@ export default function createApp() {
 
   return app;
 }
+
+export function createTestApp(router: any) {
+  return createApp().route('/', router);
+};
