@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, Switch, Text } from 'react-native-paper';
 import { useAppStore } from '../store/useAppStore';
