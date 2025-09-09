@@ -2,13 +2,15 @@ import 'dotenv/config';
 import type { Context } from 'hono';
 import { sign } from 'hono/jwt';
 import bcrypt from 'bcrypt';
+import { Resend } from 'resend';
+import crypto from 'node:crypto';
 
-import { db } from '../db/database.js';
 import * as HttpStatusCodes from '../constants/status-codes.js'
 import { userQueries } from '../db/helpers.js';
 
 const saltRounds = 10;
 const salt = await bcrypt.genSalt(saltRounds);
+const resend = new Resend(process.env.RESEND_KEY);
 
 export async function registerUser(c: Context) {
   try {
@@ -55,6 +57,7 @@ export async function loginUser(c: Context) {
 
     const payload = {
       email,
+      userId: user.id,
       exp: Math.floor(Date.now() / 1000) + 24 * 30
     };
     const secret = process.env.JWT_SECRET || '';
@@ -65,7 +68,7 @@ export async function loginUser(c: Context) {
       token: token,
     }, HttpStatusCodes.OK);
 
-  } catch(error) {
+  } catch (error) {
     return c.json({
       message: 'Internal Service Error'
     }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
@@ -73,9 +76,41 @@ export async function loginUser(c: Context) {
 }
 
 export async function requestPasswordReset(c: Context) {
+  try {
+    const { email } = await c.req.json();
+    const user = userQueries.findByEmail(email);
+
+
+    console.log(resend);
+    
+    if (!user) {
+      return c.json({
+        message: 'If an account with that email exists, a password reset link has been sent.'
+      }, HttpStatusCodes.OK);
+    }
+
+    const resetToken = crypto.randomUUID();
+    const resetTokenExpiry = new Date(Date.now() + 3600000); // 1 hour from now
+
+
+    const { data, error } = await resend.emails.send({
+      from: 'Acme <onboarding@resend.dev>',
+      to: ['robert.skwiat@icloud.com'],
+      subject: 'hello world',
+      html: '<strong>It works!</strong>',
+    });
+
+  console.log({ data });
+
+
     return c.json({
-      message: 'Request Password Reset Route'
+      message: 'If an account with that email exists, a password reset link has been sent.'
     }, HttpStatusCodes.OK);
+  } catch (error) {
+    return c.json({
+      message: 'Internal Service Error'
+    }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
+  }
 };
 
 export async function resetPassword(c: Context) {

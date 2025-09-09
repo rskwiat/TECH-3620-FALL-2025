@@ -2,7 +2,7 @@ import 'dotenv/config';
 import Database from 'better-sqlite3';
 import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
-import { createUsersTable } from './seed.js';
+import { createJournalsTable, createUsersTable } from './seed.js';
 
 const dataDir = join(process.cwd(), 'data');
 mkdirSync(dataDir, { recursive: true });
@@ -16,8 +16,9 @@ export const db = new Database(dbPath, {
 
 db.pragma('journal_mode = WAL');
 
-export function initializeDatabase() {  
+export function initializeDatabase() {
   db.exec(createUsersTable);
+  db.exec(createJournalsTable);
   console.log('Database initialized');
 };
 
