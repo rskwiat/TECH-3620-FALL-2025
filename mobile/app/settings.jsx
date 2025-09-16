@@ -7,7 +7,10 @@ export default function Settings() {
   return (
     <ThemedView>
       <Stack.Screen
-        options={{ headerShown: true }}
+        options={{ 
+          title: 'Settings',
+          headerShown: true 
+        }}
       />
       <ThemeToggle />  
     </ThemedView>
