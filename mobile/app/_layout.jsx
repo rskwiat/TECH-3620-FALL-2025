@@ -14,6 +14,7 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <PaperProvider theme={paperTheme}>
         <Stack screenOptions={{ headerShown: false }}/>
+        
         <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
       </PaperProvider>
     </SafeAreaProvider>
