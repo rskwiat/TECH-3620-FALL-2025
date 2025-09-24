@@ -4,10 +4,10 @@ import riverImage from '../../assets/meditation-images/river.jpg';
 import waterfallImage from '../../assets/meditation-images/waterfall.jpg';
 import yosemiteImage from '../../assets/meditation-images/yosemite.jpg';
  
-export default [
+export default {
   treeImage,
   riverImage,
   beachImage,
   yosemiteImage,
   waterfallImage,
-];
+};

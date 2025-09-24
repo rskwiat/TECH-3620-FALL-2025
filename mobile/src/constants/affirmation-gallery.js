@@ -1,7 +1,5 @@
 import images from './affirmation-images';
 
-import images from "@/constants/affirmation-images";
-
 const AFFIRMATION_GALLERY = [
     {
         title: "Positivity",
