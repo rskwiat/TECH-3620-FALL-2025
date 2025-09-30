@@ -12,7 +12,7 @@ export default function MainLayout() {
             title: "Meditation",
             tabBarIcon: ({ color }) => {
               return (
-                <MaterialIcons size={54} name='spa' color={color} />
+                <MaterialIcons size={24} name='spa' color={color} />
               )
             }
           }}

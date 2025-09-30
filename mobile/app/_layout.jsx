@@ -13,8 +13,15 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <PaperProvider theme={paperTheme}>
-        <Stack screenOptions={{ headerShown: false }}/>
-        
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            name="meditation/[id]"
+            options={{
+              "presentation":"modal",
+              "title": "Meditation Modal"
+            }}
+          />
+        </Stack>   
         <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
       </PaperProvider>
     </SafeAreaProvider>
