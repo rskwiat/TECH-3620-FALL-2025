@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { ThemedView } from '../../src/components/ThemedView';
 
-import beach from '../../assets/meditation-images/beach.jpg';
+import beach from '../../assets/meditation-images/waterfall.jpg';
 import MEDITATION_GALLERY from '../../src/constants/meditation-gallery';
 
 export default function MeditationPage() {
@@ -27,7 +27,15 @@ export default function MeditationPage() {
         <SafeAreaView>
           <Text 
             variant="displaySmall" 
-            style={{ marginHorizontal: 18 }}
+            style={{ 
+              marginHorizontal: 18, 
+              color: '#fff', 
+              marginBottom: 20,
+              fontWeight: 'bold',
+              textShadowColor: 'rgba(0, 0, 0, 0.75)',
+              textShadowOffset: { width: -1, height: 1 },
+              textShadowRadius: 10
+            }}
           >
             Guided Meditation
           </Text>
@@ -61,7 +69,10 @@ export default function MeditationPage() {
                       top: 50,
                       fontSize: 75,
                       fontWeight: 'bold',
-                      color: '#fff'
+                      color: '#fff',
+                      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+                      textShadowOffset: { width: -1, height: 1 },
+                      textShadowRadius: 10
                     }}
                   >
                     {meditation.title}
