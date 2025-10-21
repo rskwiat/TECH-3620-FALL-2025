@@ -21,6 +21,14 @@ const paperTheme = theme === 'dark' ? darkTheme : lightTheme;
 							"title": "Meditation Modal"
 						}}
 					/>
+					<Stack.Screen
+						name="affirmation/[id]"
+						options={{
+							"presentation":"modal",
+							"title": "Affirmation Modal"
+						}}
+					/>
+
 				</Stack>   
 				<StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
 			</PaperProvider>

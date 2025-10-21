@@ -1,7 +1,5 @@
 import images from './affirmation-images';
 
-import images from "@/constants/affirmation-images";
-
 const AFFIRMATION_GALLERY = [
 	{
 		title: "Positivity",
@@ -11,7 +9,7 @@ const AFFIRMATION_GALLERY = [
 						text: "Every day brings new opportunities to grow and excel. I am constantly evolving and improving. My positive mindset attracts abundance and success. I am grateful for the journey and the lessons it brings.",
 						image: images.california,
 				},
-				{
+				{ 
 						id: 2,
 						text: "I am the architect of my destiny, and I build it with positivity and determination. Challenges are stepping stones to my greatness. I embrace each moment with enthusiasm and confidence. My future is bright and limitless.",
 						image: images.california,
