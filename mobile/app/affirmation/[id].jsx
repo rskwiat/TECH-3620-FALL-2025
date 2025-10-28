@@ -1,5 +1,5 @@
 import { Text, Button } from 'react-native-paper';
-import { View } from 'react-native';
+import { View, ImageBackground, ScrollView } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { ThemedView } from '../../src/components/ThemedView';
 
@@ -15,9 +15,22 @@ export default function DynamicRoute() {
 
   return (
     <ThemedView>
-      <Text variant="">
-        {randomAffirmation}
-      </Text> 
+      <ImageBackground source={randomImage} style={{ flex: 1 }}>
+        <ScrollView>
+            <Text variant="displaySmall" 
+              style={{ 
+                textAlign: 'center',
+                margin: 40, 
+                color: 'white', 
+                textShadowColor: 'black',
+                textShadowOffset: 
+                  { width: -1, height: 1 }, 
+                textShadowRadius: 10 
+              }}>
+              {randomAffirmation}
+            </Text> 
+        </ScrollView>
+      </ImageBackground>
     </ThemedView>
   );
 }
