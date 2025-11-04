@@ -16,7 +16,7 @@ export async function registerUser(c: Context) {
   try {
     const { email, password } = await c.req.json();
     const saltedPassword = await bcrypt.hash(password, salt);
-    const result = userQueries.create(email, saltedPassword)
+    const result = userQueries.create(email, saltedPassword);
 
     return c.json({
       message: 'User registered',
@@ -79,9 +79,6 @@ export async function requestPasswordReset(c: Context) {
   try {
     const { email } = await c.req.json();
     const user = userQueries.findByEmail(email);
-
-
-    console.log(resend);
     
     if (!user) {
       return c.json({
@@ -94,14 +91,13 @@ export async function requestPasswordReset(c: Context) {
 
 
     const { data, error } = await resend.emails.send({
-      from: 'Acme <onboarding@resend.dev>',
-      to: ['robert.skwiat@icloud.com'],
-      subject: 'hello world',
+      from: 'Namaste <onboarding@resend.dev>',
+      to: ['YOUR_EMAIL_ADDRESS@EMAIL.com'],
+      subject: 'Namaste Password Reset',
       html: '<strong>It works!</strong>',
     });
 
-  console.log({ data });
-
+    console.log({ data });
 
     return c.json({
       message: 'If an account with that email exists, a password reset link has been sent.'

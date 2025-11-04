@@ -5,24 +5,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemeToggle } from '../src/components/ThemeToggle';
 import { ThemedView } from '../src/components/ThemedView';
+import { useAppStore } from '../src/store/useAppStore';
 
 export default function HomeScreen() {
-	const [loadingText, setLoadingText] = useState('Loading...');
+	const { registerUser, loginUser, message } = useAppStore();
 	const router = useRouter();
-
-	const checkIfLoadingComplete = async () => {
-		try {
-			const data = await fetch('http://localhost:3000/healthcheck');
-			const response = await data.json();
-			setLoadingText(response.message);
-		} catch (error) {
-			setLoadingText(JSON.stringify(error));
-		}
-	}
-
-	useEffect(() => {
-		checkIfLoadingComplete();
-	}, []);
 
 	const handleNavigation = (href) => {
 		router.navigate(href);
@@ -36,8 +23,16 @@ export default function HomeScreen() {
 			}}>
 				<Text variant='displayLarge'>
 					Welcome, **your name** 👋 
-					{loadingText}
+					{message}
 				</Text>
+
+				<Button mode="contained" 
+					style={{ marginVertical: 40 }
+				}
+					onPress={() => registerUser('email1@example.com', 'password')}
+				>Register User</Button>
+				<Button mode="contained" 
+				onPress={() => loginUser('email1@example.com', 'password')}>Login User</Button>
 
 				<Button
 					style={{
