@@ -1,8 +1,14 @@
-import { Tabs } from "expo-router";
+import { Tabs, Redirect } from "expo-router";
 import { View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useAppStore } from '../../src/store/useAppStore';
 
 export default function MainLayout() {
+  const { user } = useAppStore();
+  if (!user) {
+    return <Redirect href="./settings" />;
+  }
+
   const pages = [
     { name: 'index', title: 'Meditation', icon: 'spa' },
     { name: 'affirmations', title: 'Affirmations', icon: 'sunny' },
