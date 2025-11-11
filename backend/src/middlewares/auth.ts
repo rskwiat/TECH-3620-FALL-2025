@@ -3,7 +3,7 @@ import type { Context, Next } from 'hono';
 import { verify } from 'hono/jwt';
 
 import * as HttpStatusCodes from '../constants/status-codes.js';
-import { userQueries } from '../db/helpers.js';
+// import { userQueries } from '../db/helpers.js';
 
 export const authJWT = async (c: Context, next: Next) => {
   const authHeader = c.req.header('Authorization');

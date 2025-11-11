@@ -1,28 +1,28 @@
-import 'dotenv/config';
-import Database from 'better-sqlite3';
-import { join } from 'node:path';
-import { mkdirSync } from 'node:fs';
-import { createJournalsTable, createUsersTable } from './seed.js';
+// import 'dotenv/config';
+// import Database from 'better-sqlite3';
+// import { join } from 'node:path';
+// import { mkdirSync } from 'node:fs';
+// import { createJournalsTable, createUsersTable } from './seed.js';
 
-const dataDir = join(process.cwd(), 'data');
-mkdirSync(dataDir, { recursive: true });
+// const dataDir = join(process.cwd(), 'data');
+// mkdirSync(dataDir, { recursive: true });
 
-const databaseFile = process.env.DATABASE_URL || 'test.db';
-const dbPath = join(dataDir, databaseFile);
+// const databaseFile = process.env.DATABASE_URL || 'test.db';
+// const dbPath = join(dataDir, databaseFile);
 
-export const db = new Database(dbPath, {
-  verbose: console.log
-});
+// export const db = new Database(dbPath, {
+//   verbose: console.log
+// });
 
-db.pragma('journal_mode = WAL');
+// db.pragma('journal_mode = WAL');
 
-export function initializeDatabase() {
-  db.exec(createUsersTable);
-  db.exec(createJournalsTable);
-  console.log('Database initialized');
-};
+// export function initializeDatabase() {
+//   db.exec(createUsersTable);
+//   db.exec(createJournalsTable);
+//   console.log('Database initialized');
+// };
 
-process.on('exit', () => db.close());
-process.on('SIGHUP', () => process.exit(128 + 1));
-process.on('SIGINT', () => process.exit(128 + 2));
-process.on('SIGTERM', () => process.exit(128 + 15));
+// process.on('exit', () => db.close());
+// process.on('SIGHUP', () => process.exit(128 + 1));
+// process.on('SIGINT', () => process.exit(128 + 2));
+// process.on('SIGTERM', () => process.exit(128 + 15));

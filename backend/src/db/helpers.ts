@@ -1,36 +1,51 @@
-import { db } from './database.js';
-import type { User } from '../types.js';
+import { getPrisma } from './prisma.js';
 
 export const userQueries = {
-  findByEmail: (email: string): User | undefined => {
-    return db.prepare("SELECT * FROM users WHERE email = ?").get(email) as User | undefined;
+  findByEmail: async (email: string) => {
+    return await getPrisma().user.findUnique({
+      where: { email }
+    });
   },
   
-  create: (email: string, password: string) => {
-    return db.prepare("INSERT INTO users (email, password) VALUES (?, ?)").run(email, password);
+  create: async (email: string, password: string) => {
+    return await getPrisma().user.create({
+      data: { email, password }
+    });
   },
   
-  findById: (id: number): User | undefined => {
-    return db.prepare("SELECT * FROM users WHERE id = ?").get(id) as User | undefined;
+  findById: async (id: number) => {
+    return await getPrisma().user.findUnique({
+      where: { id }
+    });
+  },
+
+  findAll: async () => {
+    return await getPrisma().user.findMany();
   }
+
 };
 
 export const journalQueries = {
-  create: (userId: number, title: string, entry: string) => {
-    return db.prepare(
-      "INSERT INTO journals (user_id, title, entry) VALUES (?, ?, ?)"
-    ).run(userId, title, entry);
+  create: async (userId: number, title: string, entry: string) => {
+    return await getPrisma().journal.create({
+      data: {
+        userId,
+        title,
+        entry
+      }
+    });
   },
 
-  findByUserId: (userId: number) => {
-    return db.prepare(
-      "SELECT id, title, entry, created_at FROM journals WHERE user_id = ? ORDER BY created_at DESC"
-    ).all(userId);
+  findByUserId: async (userId: number) => {
+    return await getPrisma().journal.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' }
+    });
   },
 
-  findById: (id: number) => {
-    return db.prepare(
-      "SELECT id, user_id, title, entry, created_at FROM journals WHERE id = ?"
-    ).get(id);
+  findById: async (id: number) => {
+    return await getPrisma().journal.findUnique({
+      where: { id }
+    });
   }
 };
