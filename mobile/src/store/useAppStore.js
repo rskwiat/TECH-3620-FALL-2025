@@ -36,15 +36,25 @@ export const useAppStore = create((set) => ({
       });
 
       const result = await response.json();
+
       if (response.ok) {
-        set({ user: result.token })
+        set({ 
+          user: { 
+            token: result.token, 
+            email: result.email
+          } 
+        });
+        //should return a status code of 200 and a token if successful, otherwise return an error message
+        return result.token;
       } else {
         set({ message: result.message });
+        return result.message;
       }
 
     } catch (error) {
       console.error(error);
       set({ message: 'An unexpected error occurred.' });
+      return error.message;
     }
   },
   logoutUser: () => set({ user: null })

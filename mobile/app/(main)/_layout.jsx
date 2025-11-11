@@ -5,6 +5,7 @@ import { useAppStore } from '../../src/store/useAppStore';
 
 export default function MainLayout() {
   const { user } = useAppStore();
+  console.log(user);
   if (!user) {
     return <Redirect href="./settings" />;
   }

@@ -66,6 +66,7 @@ export async function loginUser(c: Context) {
     return c.json({
       message: 'Login successful',
       token: token,
+      email: user.email,
     }, HttpStatusCodes.OK);
 
   } catch (error) {

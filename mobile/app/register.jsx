@@ -7,25 +7,21 @@ import { ThemeToggle } from '../src/components/ThemeToggle';
 import { ThemedView } from '../src/components/ThemedView';
 import { useAppStore } from '../src/store/useAppStore';
 
-export default function HomeScreen() {
-	const { registerUser, loginUser, message } = useAppStore();
+export default function RegisterScreen() {
+	const { registerUser } = useAppStore();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
 	const router = useRouter();
-
-	const handleNavigation = (href) => {
-		router.navigate(href);
-	}
-
-	const handleLogin = async (email, password) => {
+  
+	const handleRegisterUser = async (email, password) => {
 		try {
 			const emailToLowerCase = email.toLowerCase();
 			const passwordToLowerCase = password.toLowerCase();
-			await loginUser(emailToLowerCase, passwordToLowerCase);
-			router.navigate('/(main)');
+			await registerUser(emailToLowerCase, passwordToLowerCase);
+			router.navigate('/');
 		} catch (error) {
-			console.error('Login failed:', error);
+			console.error('Regsitration failed:', error);
 		}
 	}
 
@@ -37,7 +33,7 @@ export default function HomeScreen() {
 			}}>
 
 				<Text variant='displayMedium'>
-					Please Sign In or Register to continue
+					Please Register an account.
 				</Text>
 				
 				<TextInput
@@ -61,19 +57,9 @@ export default function HomeScreen() {
 					mode="contained"
 					style={{ marginVertical: 40 }}
 					disabled={!email || !password}
-					onPress={() => handleLogin(email, password)}
+					onPress={() => handleRegisterUser(email, password)}
 				>
-					Login
-				</Button>
-
-				<Button 
-					onPress={() => handleNavigation('/register')}>
 					Register an Account
-				</Button>
-
-				<Button
-					onPress={() => handleNavigation('/forgot-password')}>
-					Forgot Password?
 				</Button>
 
 			</SafeAreaView>
