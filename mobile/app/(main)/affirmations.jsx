@@ -21,8 +21,8 @@ export default function Affirmations() {
     <ThemedView>
       <SafeAreaView style={{ flex: 1 }}>
         <Text variant="displaySmall">Daily Affirmations</Text>
-        <ScrollView style={{ marginTop: 20, paddingHorizontal: 18 }}>
-          <FlatList 
+          <FlatList
+            style={{ marginTop: 20, paddingHorizontal: 18 }}
             data={affirmationsGallery}
             keyExtractor={(item) => item.title}
             renderItem={({ item }) => (
@@ -37,7 +37,6 @@ export default function Affirmations() {
               </Button>
             )}
           />
-        </ScrollView>      
       </SafeAreaView> 
     </ThemedView>
   );
