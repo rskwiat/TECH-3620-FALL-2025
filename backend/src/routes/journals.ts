@@ -7,20 +7,11 @@ import { journalQueries, userQueries } from '../db/helpers.js';
 export async function getUserJournals(c: Context) {
   try {
     const userId = c.get('userId');
-    // const user = userQueries.findByEmail(userId);
-
-    // const journals = db.prepare(`
-    //   SELECT id, entry, created_at
-    //   FROM journals,
-    //   WHERE user_id = ?
-    //   ORDER BY created_at DESC
-    // `).all(user?.id);
-
-    // console.log(user);
-
+    const journals = await journalQueries.findByUserId(userId);
     return c.json({
       success: true,
       id: userId,
+      data: journals,
     }, HttpStatusCodes.OK);
   } catch (error) {
     return c.json({
@@ -30,6 +21,8 @@ export async function getUserJournals(c: Context) {
   }
 };
 
+
+//@todo -- rate limiting
 export async function createUserJournal(c: Context) {
   try {
     const userId = c.get('userId');
@@ -42,12 +35,14 @@ export async function createUserJournal(c: Context) {
       }, HttpStatusCodes.BAD_REQUEST);
     }
 
-    const result = journalQueries.create(userId, title, entry);
+    const result = await journalQueries.create(userId, title, entry);
+    const journals = await journalQueries.findByUserId(userId);
 
     return c.json({
       success: true,
       message: 'Journal entry created successfully',
-      journalId: result.lastInsertRowid
+      journalId: result.lastInsertRowid,
+      data: journals,
     }, HttpStatusCodes.CREATED);
   } catch (error) {
     console.log(error);

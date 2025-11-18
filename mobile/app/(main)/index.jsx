@@ -20,7 +20,6 @@ export default function MeditationPage() {
     });
   };
 
-
   return (
     <ThemedView>
       <ImageBackground source={beach} style={{ flex: 1 }}>

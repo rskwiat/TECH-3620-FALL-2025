@@ -1,10 +1,11 @@
 import { create } from 'zustand';
 
-export const useAppStore = create((set) => ({
+export const useAppStore = create((set, get) => ({
   user: null,
   theme: 'light',
   setMessage: (message) => set({ message }),
   setTheme: (theme) => set({ theme }),
+  //all user methods
   registerUser: async (email, password) => {
     try {
       const response = await fetch(process.env.EXPO_PUBLIC_API_URL + '/register', {
@@ -57,5 +58,33 @@ export const useAppStore = create((set) => ({
       return error.message;
     }
   },
-  logoutUser: () => set({ user: null })
+  logoutUser: () => set({ user: null }),
+  //all journal methods
+  getJournals: async () => {
+    try {
+      const currentUser = get().user;
+      const response = await fetch(process.env.EXPO_PUBLIC_API_URL + '/journals', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${currentUser.token}`
+        }
+      });
+
+      const results = await response.json();
+      set({ 
+        user: {
+          ...currentUser,
+          journals: results.data || [],
+        } 
+      });
+      return results.data;
+    } catch (error) {
+      set({ message: 'An unexpected error occured.'});
+      return error.message;
+    }
+  },
+  createJournals: async (title, entry) => {
+
+  },
 }));
