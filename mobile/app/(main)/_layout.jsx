@@ -5,7 +5,6 @@ import { useAppStore } from '../../src/store/useAppStore';
 
 export default function MainLayout() {
   const { user } = useAppStore();
-  console.log(user);
   if (!user) {
     return <Redirect href="./settings" />;
   }
@@ -13,6 +12,7 @@ export default function MainLayout() {
   const pages = [
     { name: 'index', title: 'Meditation', icon: 'spa' },
     { name: 'affirmations', title: 'Affirmations', icon: 'sunny' },
+    { name: 'journals', title: 'Daily Journals', icon: 'draw'}
   ];
 
   return (
