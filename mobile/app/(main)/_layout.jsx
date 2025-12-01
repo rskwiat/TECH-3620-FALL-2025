@@ -1,13 +1,55 @@
-import { Tabs, Redirect } from "expo-router";
-import { View } from 'react-native';
+import { useEffect, useRef } from "react";
+import { Tabs, Redirect, useRouter } from "expo-router";
+import { View, Alert } from 'react-native';
+import { Appbar } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAppStore } from '../../src/store/useAppStore';
 
+function Navbar({ route, options }) {
+  const router = useRouter();
+  const { logoutUser } = useAppStore();
+
+  const getCurrentPageTitle = (routeName) => {
+    const pages = {
+      'index': 'Meditation',
+      'affirmations': 'Affirmations', 
+      'journals': 'Daily Journals'
+    };
+    return pages[routeName] || 'App';
+  };
+
+  return (
+    <Appbar.Header mode="small">
+      <Appbar.Action icon="account" onPress={() => {
+        Alert.alert("Sign out", "Are you sure?",
+          [
+            {
+              text: "Cancel",
+              onPress: () => {}
+            },
+            {
+              text: "Ok",
+              onPress: () => {
+                logoutUser();
+                router.dismissAll()
+                // router.replace('/');
+              },
+              style: 'destructive'
+            }
+          ]
+        )
+      }} />
+      <Appbar.Content title={getCurrentPageTitle(route.name)} />
+      <Appbar.Action icon="cog" onPress={() => 
+        router.navigate('/settings')} />
+    </Appbar.Header>
+  );
+}
+
 export default function MainLayout() {
   const { user } = useAppStore();
-  if (!user) {
-    return <Redirect href="./settings" />;
-  }
+
+  if (!user) return null;
 
   const pages = [
     { name: 'index', title: 'Meditation', icon: 'spa' },
@@ -17,7 +59,9 @@ export default function MainLayout() {
 
   return (
     <View style={{ flex: 1 }}>
-      <Tabs screenOptions={{ headerShown: false }}>
+      <Tabs screenOptions={{
+        header: (props) => <Navbar {...props} />,
+      }}>
         {pages.map((page) => (
           <Tabs.Screen
             key={page.name}

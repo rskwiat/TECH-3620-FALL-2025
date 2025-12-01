@@ -26,20 +26,6 @@ export default function MeditationPage() {
     <ThemedView>
       <ImageBackground source={beach} style={{ flex: 1 }}>
         <SafeAreaView>
-          <Text 
-            variant="displaySmall" 
-            style={{ 
-              marginHorizontal: 18, 
-              color: '#fff', 
-              marginBottom: 20,
-              fontWeight: 'bold',
-              textShadowColor: 'rgba(0, 0, 0, 0.75)',
-              textShadowOffset: { width: -1, height: 1 },
-              textShadowRadius: 10
-            }}
-          >
-            Guided Meditation
-          </Text>
 
           <ScrollView style={{ paddingHorizontal: 18 }}>
             {MEDITATION_GALLERY.map((meditation, index) => {
