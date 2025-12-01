@@ -20,7 +20,6 @@ export default function Affirmations() {
   return (
     <ThemedView>
       <SafeAreaView style={{ flex: 1 }}>
-        <Text variant="displaySmall">Daily Affirmations</Text>
           <FlatList
             style={{ marginTop: 20, paddingHorizontal: 18 }}
             data={affirmationsGallery}

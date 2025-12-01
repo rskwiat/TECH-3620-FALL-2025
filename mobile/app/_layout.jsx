@@ -7,13 +7,16 @@ import { lightTheme, darkTheme } from '../src/utils/theme';
 import { useAppStore } from '../src/store/useAppStore';
 
 export default function RootLayout() {
-const theme = useAppStore((state) => state.theme);
-const paperTheme = theme === 'dark' ? darkTheme : lightTheme;
+	const theme = useAppStore((state) => state.theme);
+	const paperTheme = theme === 'dark' ? darkTheme : lightTheme;
 
 	return (
 		<SafeAreaProvider>
 			<PaperProvider theme={paperTheme}>
 				<Stack screenOptions={{ headerShown: false }}>
+					<Stack.Screen
+						name="(main)/index"
+					/>
 					<Stack.Screen
 						name="meditation/[id]"
 						options={{
