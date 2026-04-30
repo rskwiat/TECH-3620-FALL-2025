@@ -6,7 +6,7 @@ import { authJWT } from "./middlewares/auth.js";
 
 import { healthCheck } from "./routes/healthcheck.js";
 import { loginUser, registerUser, requestPasswordReset, resetPassword } from "./routes/auth.js";
-import { getUserJournals, createUserJournal } from "./routes/journals.js";
+import { getUserJournals, createUserJournal, updateUserJournal, deleteUserJournal } from "./routes/journals.js";
 import * as routes from './constants/routes.js';
 
 const app = createApp();
@@ -33,5 +33,7 @@ app.post(routes.RESET_PASSWORD, validateUser, resetPassword);
 
 app.get(routes.JOURNALS, authJWT, getUserJournals);
 app.post(routes.JOURNALS, authJWT, createUserJournal);
+app.put(`${routes.JOURNALS}/:id`, authJWT, updateUserJournal);
+app.delete(`${routes.JOURNALS}/:id`, authJWT, deleteUserJournal);
 
 export default app;

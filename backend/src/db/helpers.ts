@@ -32,5 +32,17 @@ export const journalQueries = {
     return db.prepare(
       "SELECT id, user_id, title, entry, created_at FROM journals WHERE id = ?"
     ).get(id);
+  },
+
+  update: (id: number, userId: number, title: string, entry: string) => {
+    return db.prepare(
+      "UPDATE journals SET title = ?, entry = ? WHERE id = ? AND user_id = ?"
+    ).run(title, entry, id, userId);
+  },
+
+  delete: (id: number, userId: number) => {
+    return db.prepare(
+      "DELETE FROM journals WHERE id = ? AND user_id = ?"
+    ).run(id, userId);
   }
 };
