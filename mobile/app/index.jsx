@@ -22,8 +22,12 @@ export default function HomeScreen() {
 		try {
 			const emailToLowerCase = email.toLowerCase();
 			const passwordToLowerCase = password.toLowerCase();
-			await loginUser(emailToLowerCase, passwordToLowerCase);
-			router.navigate('/(main)');
+			const { status } = await loginUser(emailToLowerCase, passwordToLowerCase);
+
+			if (status === 200) {
+				router.navigate('/(main)');
+			}
+
 		} catch (error) {
 			console.error('Login failed:', error);
 		}
@@ -56,6 +60,9 @@ export default function HomeScreen() {
 					secureTextEntry
 					onChangeText={(text) => setPassword(text)}
 				/>
+
+				{message && 
+					<Text variant="headlineSmall" style={{ color: "red" }}>{message}</Text>}
 			
 				<Button 
 					mode="contained"

@@ -46,10 +46,16 @@ export const useAppStore = create((set, get) => ({
           } 
         });
         //should return a status code of 200 and a token if successful, otherwise return an error message
-        return result.token;
+        return {
+          status: response.status,
+          token: result.token
+        }
       } else {
         set({ message: result.message });
-        return result.message;
+        return {
+          status: response.status,
+          message: result.message
+        };
       }
 
     } catch (error) {
@@ -58,7 +64,7 @@ export const useAppStore = create((set, get) => ({
       return error.message;
     }
   },
-  logoutUser: () => set({ user: null }),
+  logoutUser: () => set({ user: null, message: null }),
   //all journal methods
   getJournals: async () => {
     try {
